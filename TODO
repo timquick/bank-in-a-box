@@ -1,0 +1,35 @@
+This is where we will keep the history of the system development. We'll identify
+the MVP for each major release of the system and track each item as it's 
+completed.
+
+Release 1
+Focus:  Data model for customer, agreement & account 
+
+MVP:  
+1. Create a new Customer record, including basic identification & contact info
+2. Create a new agreement
+3. Create an account based on the agreement
+4. Link the customer to the account
+
+Leverage 'Admin' ui interface
+
+Release 2
+Focus:  Testing
+MVP:
+1.  Add test scripts so that 'python manage.py test' validates the product
+2.  All functionality created in Release 1 is tested
+
+
+
+Release 3
+Focus:  Data model for Transactions
+
+MVP:
+1.  Create a cash deposit transaction (as if opening a new account)
+2.  Create a cash withdrawl transaction
+
+
+
+
+
+

@@ -13,18 +13,14 @@ Banking Data Model
   
 '''
 class Customer(models.Model):
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    name_suffix = models.CharField(max_length=5)
-    legal_name = models.CharField(max_length=70)
-    tax_id = models.CharField(max_length=9)
-    street1 = models.CharField(max_length=50)
-    street2 = models.CharField(max_length=50)
-    city = models.CharField(max_length=60)
-    state_province = models.CharField(max_length=30)
-    postal_code = models.CharField(max_length=30)
-    email = models.EmailField()
-    website = models.URLField()
+    legal_name = models.CharField(max_length=70, blank=True)
+    tax_id = models.CharField(max_length=9, blank=True)
+    street1 = models.CharField(max_length=50, blank=True)
+    street2 = models.CharField(max_length=50, blank=True)
+    city = models.CharField(max_length=60, blank=True)
+    state_province = models.CharField(max_length=30, blank=True)
+    postal_code = models.CharField(max_length=30, blank=True)
+    email = models.EmailField(blank=True)
     
     def __unicode__(self):
         return self.legal_name
@@ -32,7 +28,7 @@ class Customer(models.Model):
 class Agreement(models.Model):
     account_type = models.CharField(max_length=3)
     description  = models.CharField(max_length=50)
-    effective_date = models.DateField()
+    effective_date = models.DateField(auto_now_add=True)
     
     def __unicode__(self):
         return u'%s %s' % (self.account_type, self.description)
@@ -42,11 +38,11 @@ class BankAccount(models.Model):
     routing_number = models.IntegerField()
     account_number = models.IntegerField()
     account_title = models.CharField(max_length=60)
-    available_balance = models.DecimalField(max_digits=12, decimal_places=2)
-    posted_balance = models.DecimalField(max_digits=12, decimal_places=2)
-    last_activity  = models.DateField()
-    cycle_day = models.IntegerField()
-    stage = models.CharField(max_length=15)
+    available_balance = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
+    posted_balance = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
+    last_activity  = models.DateField(auto_now_add=True)
+    cycle_day = models.IntegerField(default=1)
+    stage = models.CharField(max_length=15,default='New')
     
     def __unicode__(self):
         return u'%d %d %s' % (self.routing_number, self.account_number, self.account_title)
@@ -66,9 +62,9 @@ class AccountRole(models.Model):
     customer_id = models.ForeignKey(Customer)
     account_id  = models.ForeignKey(BankAccount)
     role_code   = models.CharField(max_length=15)
-    from_date   = models.DateField()
-    thru_date   = models.DateField()
-    allocation_pct = models.DecimalField(max_digits=3,decimal_places=2)
+    from_date   = models.DateField(auto_now_add=True)
+    thru_date   = models.DateField(blank=True,null=True)
+    allocation_pct = models.DecimalField(max_digits=3,decimal_places=2,default=1.00)
     
     def __unicode__(self):
         return u'%s %s %s' % (self.customer_id, self.account_id, self.role_code)
